@@ -1,6 +1,36 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:signup_login2/Screens/Home.dart';
+import 'package:http/http.dart' as http;
+import 'package:signup_login2/Screens/sign_up.dart';
+// import 'package:signup_login2/Screens/sign_up.dart';
+
+TextEditingController userController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+
+class LoginAlbum {
+  final String email;
+  final String password;
+
+  LoginAlbum({required this.email, required this.password});
+
+  factory LoginAlbum.fromJson(Map<String, dynamic> json) {
+    return LoginAlbum(email: json['email'], password: json['password']);
+  }
+}
+
+Future<LoginAlbum> postLoginData({required String email, required String password}) async {
+  var response = await http.post(Uri.parse('http://10.0.2.2:8888/read'), body: {
+    'email': email,
+    'password': password,
+  });
+  print(response.body);
+  return LoginAlbum.fromJson(
+    jsonDecode(response.body),
+  );
+}
 
 class Login extends StatefulWidget {
   @override
@@ -8,7 +38,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   var _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -45,10 +74,11 @@ class _LoginState extends State<Login> {
                       Container(
                         width: MediaQuery.of(context).size.height * 0.4,
                         child: TextFormField(
-                          validator: (value){
-                            if(value!.isEmpty){
+                          controller: userController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return "username can not be empty";
-                            }else{
+                            } else {
                               return null;
                             }
                           },
@@ -68,10 +98,11 @@ class _LoginState extends State<Login> {
                       Container(
                         width: MediaQuery.of(context).size.height * 0.4,
                         child: TextFormField(
-                          validator: (value){
-                            if(value!.isEmpty){
+                          controller: passwordController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return "password can not be empty";
-                            }else{
+                            } else {
                               return null;
                             }
                           },
@@ -94,21 +125,22 @@ class _LoginState extends State<Login> {
                         child: Container(
                           child: ElevatedButton(
                             onPressed: () {
+                              postLoginData(
+                                  email: emailController.text,
+                                  password: passwordController.text);
                               var abcd = _formKey.currentState!.validate();
                               print('aaaaaaaaaa$abcd');
-                              if(_formKey.currentState!.validate()){
+                              if (_formKey.currentState!.validate()) {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Home()),
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()),
                                 );
 
-                              print('999999999999999');
-                              }else{
+                                print('999999999999999');
+                              } else {
                                 print('22222222222222');
-
-
                               }
-
                             },
                             child: Text(
                               'Login',

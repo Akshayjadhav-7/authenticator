@@ -3,6 +3,8 @@ import 'package:signup_login2/Screens/Home.dart';
 import 'package:signup_login2/Screens/sign_up.dart';
 import 'package:signup_login2/Screens/login_up.dart';
 
+import 'Screens/postdirect.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
       primaryColor: Colors.black,
       ),
-      home: Home(),
+      home: PostDirect(),
     );
   }
 }
