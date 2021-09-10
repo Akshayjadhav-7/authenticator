@@ -48,12 +48,12 @@ class PostDirect extends StatefulWidget {
 }
 
 class _PostDirectState extends State<PostDirect> {
-  late Future<List<Person>> persons;
+   late Future<List<Person>> peoples;
 
   @override
   void initState() {
     super.initState();
-    persons = apiCall();
+    peoples = apiCall();
   }
 
   @override
@@ -64,26 +64,29 @@ class _PostDirectState extends State<PostDirect> {
           title: Text('POST'),
         ),
         body: SingleChildScrollView(
-            child: FutureBuilder(
-                future: persons,
-                builder: (context, i) {
-                  if (!i.hasData) {
-                    // print("data>lenght:${persons.length}");
-                    return Center(child: CircularProgressIndicator());
-                    print("iiiiiii: ${i.hasData}");
-                  }
-                  return ListTile();
-                  // ListView.builder(
-                  //       primary: false,
-                  //       itemCount: persons.lenght,
-                  //       shrinkWrap: true,
-                  //       itemBuilder: (context, i){
-                  //         print(persons[i].email);
-                  //         print(persons[i].name);
-                  //         return ListTile();
-                  //       }
-                  //   );
-                })),
+          child: FutureBuilder(
+            future: peoples,
+            builder: (context, i) {
+
+
+              if (!i.hasData) {
+                // print("data>lenght:${persons.length}");
+                return Center(child: CircularProgressIndicator());
+              }
+             print("persons 76 :${peoples.toString()}");
+             return ListView.builder(
+                      primary: false,
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      itemBuilder: (context, j) {
+                        print(peoples.toString());
+                        // print(peoples['email']);
+                        return ListTile();
+                      });
+
+            },
+          ),
+        ),
       ),
     );
   }
