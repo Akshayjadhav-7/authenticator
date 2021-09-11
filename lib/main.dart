@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:signup_login2/Screens/Home.dart';
-import 'package:signup_login2/Screens/sign_up.dart';
-import 'package:signup_login2/Screens/login_up.dart';
 
-import 'Screens/postdirect.dart';
+import 'package:signup_login2/screens/sign_up.dart';
+import 'package:signup_login2/screens/login_up.dart';
+
+import 'screens/home.dart';
 
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
       primaryColor: Colors.black,
       ),
-      home: PostDirect(),
+      home: SignUP(),
     );
   }
 }

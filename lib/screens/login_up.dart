@@ -1,11 +1,12 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:signup_login2/Screens/Home.dart';
-import 'package:http/http.dart' as http;
-import 'package:signup_login2/Screens/sign_up.dart';
-// import 'package:signup_login2/Screens/sign_up.dart';
+
+import 'package:signup_login2/config/config.dart';
+import './sign_up.dart';
+import './home.dart';
+
 
 TextEditingController userController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
@@ -22,7 +23,7 @@ class LoginAlbum {
 }
 
 Future<LoginAlbum> postLoginData({required String email, required String password}) async {
-  var response = await http.post(Uri.parse('http://10.0.2.2:8888/read'), body: {
+  var response = await http.post(Uri.parse('$url/read'), body: {
     'email': email,
     'password': password,
   });
@@ -134,7 +135,7 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Home()),
+                                      builder: (context) => PostDirect()),
                                 );
 
                                 print('999999999999999');

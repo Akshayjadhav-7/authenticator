@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:signup_login2/Screens/Home.dart';
-import 'package:signup_login2/Screens/login_up.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:signup_login2/config/config.dart';
+import './login_up.dart';
+import './home.dart';
+
+
 TextEditingController nameController = TextEditingController();
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
+TextEditingController confirmPasswordController = TextEditingController();
 
 class Album {
   final String nameAlbum;
@@ -36,7 +40,7 @@ Future<Album> postSignupData(
   print('email:nameeeeee$email');
   print('password:nameeeeee$password');
   var response = await http.post(
-    Uri.parse('http://10.0.2.2:8888/create'),
+    Uri.parse('$url/create'),
     headers: {
       "Content-Type": "application/json",
       // charset=UTF-8
@@ -91,7 +95,7 @@ class _SignUPState extends State<SignUP> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => PostDirect()),
               );
             },
             icon: Icon(
@@ -208,6 +212,37 @@ class _SignUPState extends State<SignUP> {
                                 borderSide: BorderSide(
                                     // color: Colors.orangeAccent,width: 5
                                     ))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.height * 0.4,
+                      child: TextFormField(
+                        controller: confirmPasswordController,
+                        validator: (value) {
+                          String pattern1 =
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                          RegExp regexp = RegExp(pattern1);
+
+                          if (value!.isEmpty) {
+                            return "Password can not be empty";
+                          } else if (!regexp.hasMatch(pattern1)) {
+                            return "Try atlease 1 Uppercase, 1 Lowercase, 1 number, 1 Special character, ";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Confirm Password',
+                            hintText: '🔑Password should match with above entered password',
+                            hintStyle: GoogleFonts.lato(
+                                fontSize: 14.0, color: Colors.black38),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  // color: Colors.orangeAccent,width: 5
+                                ))),
                       ),
                     ),
                     SizedBox(
